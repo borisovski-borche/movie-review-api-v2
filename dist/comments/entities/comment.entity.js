@@ -25,8 +25,7 @@ __decorate([
     __metadata("design:type", String)
 ], Comment.prototype, "text", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => user_entity_1.User),
-    (0, typeorm_1.JoinColumn)(),
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User),
     __metadata("design:type", user_entity_1.User)
 ], Comment.prototype, "user", void 0);
 __decorate([

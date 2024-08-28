@@ -11,8 +11,16 @@ export class CommentsService {
     @InjectRepository(Comment) private commentsRepo: Repository<Comment>,
   ) {}
 
-  create(createCommentDto: CreateCommentDto) {
-    return 'This action adds a new comment';
+  create(userId: string, createCommentDto: CreateCommentDto) {
+    return this.commentsRepo.save({
+      text: createCommentDto.text,
+      review: {
+        id: createCommentDto.reviewId,
+      },
+      user: {
+        id: userId,
+      },
+    });
   }
 
   findAll() {

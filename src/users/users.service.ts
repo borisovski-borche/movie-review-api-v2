@@ -35,6 +35,24 @@ export class UsersService {
     return `This action updates a #${id} user`;
   }
 
+  async findCommentsByUser(id: string) {
+    const foundUser = await this.usersRepo.findOne({
+      where: { id },
+      relations: { comments: true },
+    });
+
+    return foundUser.comments;
+  }
+
+  async findReviewsByUser(id: string) {
+    const foundUser = await this.usersRepo.findOne({
+      where: { id },
+      relations: { reviews: true },
+    });
+
+    return foundUser.reviews;
+  }
+
   async saveRefreshToken(userId: string, refreshToken: string) {
     const foundUser = await this.findUserById(userId);
 

@@ -24,6 +24,11 @@ Content-Type: application/json
 
 ###
 
+GET http://localhost:3000/api/auth/refresh-token
+refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjNTgzMzI5LWI4NGEtNDhiMy1hOGQ1LTY3ZWFhNDE2ZTFiNCIsImlhdCI6MTcyNDc2MzU0MCwiZXhwIjoxNzI1MzY4MzQwfQ.WFknRuC2qtWfCBlO8X0xPvAWTJMg1-E1717A_vK9ZGc
+
+###
+
 GET http://localhost:3000/api/reviews
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjNTgzMzI5LWI4NGEtNDhiMy1hOGQ1LTY3ZWFhNDE2ZTFiNCIsImlhdCI6MTcyNDc2MjkxMiwiZXhwIjoxNzI0NzY0NzEyfQ.2ZYid4WHWffGCwCYB3Ms-1FIuW-W-KPnlWAPCJpktK4
 

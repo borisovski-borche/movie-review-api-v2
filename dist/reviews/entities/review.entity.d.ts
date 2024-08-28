@@ -8,8 +8,8 @@ export declare class Review {
     rating: number;
     text: string;
     director: string;
-    likes: number;
-    dislikes: number;
+    likes: string[];
+    dislikes: string[];
     user: User;
     comments: Comment[];
 }

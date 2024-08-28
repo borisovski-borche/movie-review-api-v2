@@ -18,6 +18,7 @@ const reviews_service_1 = require("./reviews.service");
 const create_review_dto_1 = require("./dto/create-review.dto");
 const update_review_dto_1 = require("./dto/update-review.dto");
 const auth_guard_1 = require("../auth/auth.guard");
+const add_dislike_dto_1 = require("./dto/add-dislike.dto");
 let ReviewsController = class ReviewsController {
     constructor(reviewsService) {
         this.reviewsService = reviewsService;
@@ -30,6 +31,12 @@ let ReviewsController = class ReviewsController {
     }
     findOne(id) {
         return this.reviewsService.findOne(+id);
+    }
+    addLike(id, req, body) {
+        return this.reviewsService.toggleLikeDislike(req.user.id, +id, body.type);
+    }
+    getLikeDislikeCount(id, req) {
+        return this.reviewsService.checkLikeDislike(+id, req.user.id);
     }
     update(id, updateReviewDto) {
         return this.reviewsService.update(+id, updateReviewDto);
@@ -61,6 +68,24 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReviewsController.prototype, "findOne", null);
 __decorate([
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Post)(':id/add-like-dislike'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, add_dislike_dto_1.AddLikeDislikeDto]),
+    __metadata("design:returntype", void 0)
+], ReviewsController.prototype, "addLike", null);
+__decorate([
+    (0, common_1.Get)(':id/like-dislike-status'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], ReviewsController.prototype, "getLikeDislikeCount", null);
+__decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -76,6 +101,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReviewsController.prototype, "remove", null);
 exports.ReviewsController = ReviewsController = __decorate([
+    (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Controller)('reviews'),
     __metadata("design:paramtypes", [reviews_service_1.ReviewsService])

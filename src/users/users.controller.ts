@@ -6,11 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -23,6 +30,20 @@ export class UsersController {
   @Get()
   findAll() {
     return this.usersService.findAll();
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('comments')
+  findCommentsByUser(@Req() req: { user: User }) {
+    console.log(req.user);
+
+    return this.usersService.findCommentsByUser(req.user.id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('reviews')
+  findReviewsByUser(@Req() req: { user: User }) {
+    return this.usersService.findReviewsByUser(req.user.id);
   }
 
   @Get(':id')

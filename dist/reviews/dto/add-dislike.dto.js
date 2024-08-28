@@ -9,17 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateCommentDto = void 0;
+exports.AddLikeDislikeDto = exports.LikeDislike = void 0;
 const class_validator_1 = require("class-validator");
-class CreateCommentDto {
+var LikeDislike;
+(function (LikeDislike) {
+    LikeDislike["LIKE"] = "LIKE";
+    LikeDislike["DISLIKE"] = "DISLIKE";
+})(LikeDislike || (exports.LikeDislike = LikeDislike = {}));
+class AddLikeDislikeDto {
 }
-exports.CreateCommentDto = CreateCommentDto;
+exports.AddLikeDislikeDto = AddLikeDislikeDto;
 __decorate([
-    (0, class_validator_1.IsNumber)(),
-    __metadata("design:type", Number)
-], CreateCommentDto.prototype, "reviewId", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsEnum)(LikeDislike),
     __metadata("design:type", String)
-], CreateCommentDto.prototype, "text", void 0);
-//# sourceMappingURL=create-comment.dto.js.map
+], AddLikeDislikeDto.prototype, "type", void 0);
+//# sourceMappingURL=add-dislike.dto.js.map

@@ -42,6 +42,20 @@ let UsersService = class UsersService {
     update(id, updateUserDto) {
         return `This action updates a #${id} user`;
     }
+    async findCommentsByUser(id) {
+        const foundUser = await this.usersRepo.findOne({
+            where: { id },
+            relations: { comments: true },
+        });
+        return foundUser.comments;
+    }
+    async findReviewsByUser(id) {
+        const foundUser = await this.usersRepo.findOne({
+            where: { id },
+            relations: { reviews: true },
+        });
+        return foundUser.reviews;
+    }
     async saveRefreshToken(userId, refreshToken) {
         const foundUser = await this.findUserById(userId);
         foundUser.refreshTokens.push(refreshToken);

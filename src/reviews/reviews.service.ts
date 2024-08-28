@@ -3,12 +3,13 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Review } from './entities/review.entity';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 
 @Injectable()
 export class ReviewsService {
   constructor(
     @InjectRepository(Review) private reviewsRepo: Repository<Review>,
+    private manager: EntityManager,
   ) {}
 
   create(id: string, createReviewDto: CreateReviewDto) {
@@ -25,8 +26,14 @@ export class ReviewsService {
   async findOne(id: number) {
     const foundReview = await this.reviewsRepo.findOne({
       where: { id },
-      relations: { comments: true },
+      relations: {
+        comments: true,
+        user: true,
+      },
     });
+
+    delete foundReview.user.refreshTokens;
+    delete foundReview.user.email;
 
     if (!foundReview) throw new NotFoundException('Review not found');
 
@@ -48,6 +55,81 @@ export class ReviewsService {
   }
 
   //Add a like
+  async toggleLikeDislike(
+    userId: string,
+    reviewId: number,
+    type: 'LIKE' | 'DISLIKE',
+  ) {
+    const { likeAdded, dislikeAdded } = await this.checkLikeDislike(
+      reviewId,
+      userId,
+    );
 
-  //Remove a like
+    if (!likeAdded && !dislikeAdded) {
+      if (type === 'LIKE') {
+        await this.manager.query(
+          'UPDATE review SET likes = array_append(likes, $1) WHERE review.id = $2',
+          [userId, reviewId],
+        );
+      } else {
+        await this.manager.query(
+          'UPDATE review SET dislikes = array_append(dislikes, $1) WHERE review.id = $2',
+          [userId, reviewId],
+        );
+      }
+    } else if (likeAdded) {
+      if (type === 'LIKE') {
+        await this.manager.query(
+          'UPDATE review SET likes = array_remove(likes, $1) WHERE review.id = $2',
+          [userId, reviewId],
+        );
+      }
+      if (type === 'DISLIKE') {
+        await this.manager.query(
+          'UPDATE review SET likes = array_remove(likes, $1) WHERE review.id = $2',
+          [userId, reviewId],
+        );
+        await this.manager.query(
+          'UPDATE review SET dislikes = array_append(likes, $1) WHERE review.id = $2',
+          [userId, reviewId],
+        );
+      }
+    } else if (dislikeAdded) {
+      if (type === 'DISLIKE') {
+        await this.manager.query(
+          'UPDATE review SET dislikes = array_remove(dislikes, $1) WHERE review.id = $2',
+          [userId, reviewId],
+        );
+      }
+      if (type === 'LIKE') {
+        await this.manager.query(
+          'UPDATE review SET dislikes = array_remove(likes, $1) WHERE review.id = $2',
+          [userId, reviewId],
+        );
+        await this.manager.query(
+          'UPDATE review SET likes = array_append(likes, $1) WHERE review.id = $2',
+          [userId, reviewId],
+        );
+      }
+    }
+
+    return this.checkLikeDislike(reviewId, userId);
+  }
+
+  //Check if user has liked review or disliked
+  async checkLikeDislike(reviewId: number, userId: string) {
+    const isLiked = await this.manager.query(
+      'SELECT * FROM review r WHERE r.id = $1 AND $2 = ANY(r.likes)',
+      [reviewId, userId],
+    );
+
+    const isDisliked = await this.manager.query(
+      'SELECT * FROM review r WHERE r.id = $1 AND $2 = ANY(r.dislikes)',
+      [reviewId, userId],
+    );
+    return {
+      likeAdded: !!isLiked.length,
+      dislikeAdded: !!isDisliked.length,
+    };
+  }
 }

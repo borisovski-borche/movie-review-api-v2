@@ -1,10 +1,11 @@
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { Review } from './entities/review.entity';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 export declare class ReviewsService {
     private reviewsRepo;
-    constructor(reviewsRepo: Repository<Review>);
+    private manager;
+    constructor(reviewsRepo: Repository<Review>, manager: EntityManager);
     create(id: string, createReviewDto: CreateReviewDto): Promise<{
         user: {
             id: string;
@@ -20,4 +21,12 @@ export declare class ReviewsService {
     findOne(id: number): Promise<Review>;
     update(id: number, updateReviewDto: UpdateReviewDto): Promise<void>;
     remove(id: number): Promise<void>;
+    toggleLikeDislike(userId: string, reviewId: number, type: 'LIKE' | 'DISLIKE'): Promise<{
+        likeAdded: boolean;
+        dislikeAdded: boolean;
+    }>;
+    checkLikeDislike(reviewId: number, userId: string): Promise<{
+        likeAdded: boolean;
+        dislikeAdded: boolean;
+    }>;
 }

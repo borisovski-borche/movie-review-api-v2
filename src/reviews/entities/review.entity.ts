@@ -31,11 +31,19 @@ export class Review {
   @Column()
   director: string;
 
-  @Column({ default: 0 })
-  likes: number;
+  @Column('text', {
+    array: true,
+    default: [],
+    nullable: true,
+  })
+  likes: string[];
 
-  @Column({ default: 0 })
-  dislikes: number;
+  @Column('text', {
+    array: true,
+    default: [],
+    nullable: true,
+  })
+  dislikes: string[];
 
   @ManyToOne(() => User)
   user: User;

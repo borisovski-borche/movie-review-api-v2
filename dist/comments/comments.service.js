@@ -21,8 +21,16 @@ let CommentsService = class CommentsService {
     constructor(commentsRepo) {
         this.commentsRepo = commentsRepo;
     }
-    create(createCommentDto) {
-        return 'This action adds a new comment';
+    create(userId, createCommentDto) {
+        return this.commentsRepo.save({
+            text: createCommentDto.text,
+            review: {
+                id: createCommentDto.reviewId,
+            },
+            user: {
+                id: userId,
+            },
+        });
     }
     findAll() {
         return `This action returns all comments`;

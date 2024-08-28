@@ -45,12 +45,20 @@ __decorate([
     __metadata("design:type", String)
 ], Review.prototype, "director", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: 0 }),
-    __metadata("design:type", Number)
+    (0, typeorm_1.Column)('text', {
+        array: true,
+        default: [],
+        nullable: true,
+    }),
+    __metadata("design:type", Array)
 ], Review.prototype, "likes", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: 0 }),
-    __metadata("design:type", Number)
+    (0, typeorm_1.Column)('text', {
+        array: true,
+        default: [],
+        nullable: true,
+    }),
+    __metadata("design:type", Array)
 ], Review.prototype, "dislikes", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => user_entity_1.User),

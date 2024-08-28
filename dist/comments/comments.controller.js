@@ -17,12 +17,13 @@ const common_1 = require("@nestjs/common");
 const comments_service_1 = require("./comments.service");
 const create_comment_dto_1 = require("./dto/create-comment.dto");
 const update_comment_dto_1 = require("./dto/update-comment.dto");
+const auth_guard_1 = require("../auth/auth.guard");
 let CommentsController = class CommentsController {
     constructor(commentsService) {
         this.commentsService = commentsService;
     }
-    create(createCommentDto) {
-        return this.commentsService.create(createCommentDto);
+    create(createCommentDto, req) {
+        return this.commentsService.create(req.user.id, createCommentDto);
     }
     findAll() {
         return this.commentsService.findAll();
@@ -41,8 +42,9 @@ exports.CommentsController = CommentsController;
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_comment_dto_1.CreateCommentDto]),
+    __metadata("design:paramtypes", [create_comment_dto_1.CreateCommentDto, Object]),
     __metadata("design:returntype", void 0)
 ], CommentsController.prototype, "create", null);
 __decorate([
@@ -74,6 +76,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CommentsController.prototype, "remove", null);
 exports.CommentsController = CommentsController = __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Controller)('comments'),
     __metadata("design:paramtypes", [comments_service_1.CommentsService])
 ], CommentsController);

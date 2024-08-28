@@ -5,7 +5,15 @@ import { Repository } from 'typeorm';
 export declare class CommentsService {
     private commentsRepo;
     constructor(commentsRepo: Repository<Comment>);
-    create(createCommentDto: CreateCommentDto): string;
+    create(userId: string, createCommentDto: CreateCommentDto): Promise<{
+        text: string;
+        review: {
+            id: number;
+        };
+        user: {
+            id: string;
+        };
+    } & Comment>;
     findAll(): string;
     findOne(id: number): string;
     update(id: number, updateCommentDto: UpdateCommentDto): string;
