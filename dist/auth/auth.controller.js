@@ -26,6 +26,7 @@ let AuthController = class AuthController {
     }
     async loginUser(credentials, response) {
         const { token, refreshToken, user } = await this.authService.loginUser(credentials);
+        response.set('access-controls-allow-headers', '*');
         response.set('access-token', token);
         response.set('refresh-token', refreshToken);
         return response.json(user);
@@ -34,11 +35,12 @@ let AuthController = class AuthController {
         console.log(refreshToken);
         return this.authService.logoutUser(refreshToken);
     }
-    async refreshAccessToken(res, refreshToken) {
+    async refreshAccessToken(response, refreshToken) {
         const { token, refreshToken: newRefreshToken } = await this.authService.refreshAccessToken(refreshToken);
-        res.set('access-token', token);
-        res.set('refresh-token', newRefreshToken);
-        res.sendStatus(common_1.HttpStatus.NO_CONTENT);
+        response.set('access-controls-allow-headers', '*');
+        response.set('access-token', token);
+        response.set('refresh-token', newRefreshToken);
+        response.sendStatus(common_1.HttpStatus.NO_CONTENT);
     }
 };
 exports.AuthController = AuthController;

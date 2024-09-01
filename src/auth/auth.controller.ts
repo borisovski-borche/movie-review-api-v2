@@ -31,6 +31,7 @@ export class AuthController {
     const { token, refreshToken, user } =
       await this.authService.loginUser(credentials);
 
+    response.set('access-control-allow-headers', '*');
     response.set('access-token', token);
     response.set('refresh-token', refreshToken);
 
@@ -46,15 +47,16 @@ export class AuthController {
 
   @Get('refresh-token')
   async refreshAccessToken(
-    @Res() res: Response,
+    @Res() response: Response,
     @Headers('refresh-token') refreshToken: string,
   ) {
     const { token, refreshToken: newRefreshToken } =
       await this.authService.refreshAccessToken(refreshToken);
 
-    res.set('access-token', token);
-    res.set('refresh-token', newRefreshToken);
+    response.set('access-control-allow-headers', '*');
+    response.set('access-token', token);
+    response.set('refresh-token', newRefreshToken);
 
-    res.sendStatus(HttpStatus.NO_CONTENT);
+    response.sendStatus(HttpStatus.NO_CONTENT);
   }
 }

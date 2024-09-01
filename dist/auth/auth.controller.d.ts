@@ -8,5 +8,5 @@ export declare class AuthController {
     registerUser(userData: CreateUserDto): Promise<void>;
     loginUser(credentials: CredentialsDto, response: Response): Promise<Response<any, Record<string, any>>>;
     logoutUser(refreshToken: string): Promise<void>;
-    refreshAccessToken(res: Response, refreshToken: string): Promise<void>;
+    refreshAccessToken(response: Response, refreshToken: string): Promise<void>;
 }
