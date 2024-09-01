@@ -31,7 +31,7 @@ export class AuthController {
     const { token, refreshToken, user } =
       await this.authService.loginUser(credentials);
 
-    response.set('access-control-allow-headers', '*');
+    response.set('access-control-expose-headers', '*');
     response.set('access-token', token);
     response.set('refresh-token', refreshToken);
 
@@ -53,7 +53,7 @@ export class AuthController {
     const { token, refreshToken: newRefreshToken } =
       await this.authService.refreshAccessToken(refreshToken);
 
-    response.set('access-control-allow-headers', '*');
+    response.set('access-control-expose-headers', '*');
     response.set('access-token', token);
     response.set('refresh-token', newRefreshToken);
 

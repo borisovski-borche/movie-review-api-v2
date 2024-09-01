@@ -24,7 +24,7 @@ exports.AuthModule = AuthModule = __decorate([
                     return {
                         secret: configService.get('ACCESS_TOKEN_SECRET'),
                         signOptions: {
-                            expiresIn: '3h30m',
+                            expiresIn: '4h',
                         },
                     };
                 },
