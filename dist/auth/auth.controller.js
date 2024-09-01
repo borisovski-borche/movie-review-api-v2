@@ -26,7 +26,7 @@ let AuthController = class AuthController {
     }
     async loginUser(credentials, response) {
         const { token, refreshToken, user } = await this.authService.loginUser(credentials);
-        response.set('access-controls-allow-headers', '*');
+        response.set('access-control-allow-headers', '*');
         response.set('access-token', token);
         response.set('refresh-token', refreshToken);
         return response.json(user);
@@ -37,7 +37,7 @@ let AuthController = class AuthController {
     }
     async refreshAccessToken(response, refreshToken) {
         const { token, refreshToken: newRefreshToken } = await this.authService.refreshAccessToken(refreshToken);
-        response.set('access-controls-allow-headers', '*');
+        response.set('access-control-allow-headers', '*');
         response.set('access-token', token);
         response.set('refresh-token', newRefreshToken);
         response.sendStatus(common_1.HttpStatus.NO_CONTENT);
