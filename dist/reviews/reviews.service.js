@@ -28,8 +28,21 @@ let ReviewsService = class ReviewsService {
             user: { id },
         });
     }
-    findAll() {
-        return this.reviewsRepo.find({});
+    async findAll() {
+        return this.reviewsRepo.find({
+            relations: {
+                user: true,
+            },
+            select: {
+                user: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    email: true,
+                    username: true,
+                },
+            },
+        });
     }
     async findOne(id) {
         const foundReview = await this.reviewsRepo.findOne({
@@ -37,6 +50,15 @@ let ReviewsService = class ReviewsService {
             relations: {
                 comments: true,
                 user: true,
+            },
+            select: {
+                user: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    email: true,
+                    username: true,
+                },
             },
         });
         delete foundReview.user.refreshTokens;

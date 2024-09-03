@@ -3,7 +3,7 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Review } from './entities/review.entity';
-import { EntityManager, Repository } from 'typeorm';
+import { EntityManager, Repository, TreeLevelColumn } from 'typeorm';
 
 @Injectable()
 export class ReviewsService {
@@ -19,8 +19,21 @@ export class ReviewsService {
     });
   }
 
-  findAll() {
-    return this.reviewsRepo.find({});
+  async findAll() {
+    return this.reviewsRepo.find({
+      relations: {
+        user: true,
+      },
+      select: {
+        user: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          username: true,
+        },
+      },
+    });
   }
 
   async findOne(id: number) {
@@ -29,6 +42,15 @@ export class ReviewsService {
       relations: {
         comments: true,
         user: true,
+      },
+      select: {
+        user: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          username: true,
+        },
       },
     });
 

@@ -35,7 +35,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjNTgzMzI5L
 ###
 
 POST http://localhost:3000/api/reviews
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjNTgzMzI5LWI4NGEtNDhiMy1hOGQ1LTY3ZWFhNDE2ZTFiNCIsImlhdCI6MTcyNDc2MjkxMiwiZXhwIjoxNzI0NzY0NzEyfQ.2ZYid4WHWffGCwCYB3Ms-1FIuW-W-KPnlWAPCJpktK4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkMzRkNGE3LWYwYTUtNDJlMi04ZDU1LWQ0MmVhYTllMjMxMyIsImlhdCI6MTcyNTM3MTUzNCwiZXhwIjoxNzI1Mzg1OTM0fQ.VpeDMOUN_tDJ716ikbJVbLfknM2-geHPFPrSnkXxbQ0
 Content-Type: application/json
  
 {
