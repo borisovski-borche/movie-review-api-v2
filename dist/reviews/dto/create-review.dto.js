@@ -38,4 +38,8 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateReviewDto.prototype, "director", void 0);
+__decorate([
+    (0, class_validator_1.IsUrl)(),
+    __metadata("design:type", String)
+], CreateReviewDto.prototype, "poster", void 0);
 //# sourceMappingURL=create-review.dto.js.map

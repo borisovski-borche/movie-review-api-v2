@@ -28,11 +28,13 @@ let ReviewsService = class ReviewsService {
             user: { id },
         });
     }
-    async findAll() {
-        return this.reviewsRepo.find({
+    async findAll(query) {
+        const reviews = await this.reviewsRepo.find({
             relations: {
                 user: true,
             },
+            skip: query.firstResult ? Number(query.firstResult) - 1 : 0,
+            take: Number(query.maxResults) || 10,
             select: {
                 user: {
                     id: true,
@@ -43,6 +45,11 @@ let ReviewsService = class ReviewsService {
                 },
             },
         });
+        const totalCount = await this.reviewsRepo.count();
+        return {
+            reviews,
+            totalCount,
+        };
     }
     async findOne(id) {
         const foundReview = await this.reviewsRepo.findOne({

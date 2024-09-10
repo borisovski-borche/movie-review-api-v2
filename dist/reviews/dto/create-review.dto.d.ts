@@ -5,4 +5,5 @@ export declare class CreateReviewDto {
     rating: number;
     text: string;
     director: string;
+    poster: string;
 }

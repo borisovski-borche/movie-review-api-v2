@@ -2,6 +2,7 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { Review } from './entities/review.entity';
 import { EntityManager, Repository } from 'typeorm';
+import { GetReviewsQuery } from './reviews.model';
 export declare class ReviewsService {
     private reviewsRepo;
     private manager;
@@ -16,8 +17,12 @@ export declare class ReviewsService {
         rating: number;
         text: string;
         director: string;
+        poster: string;
     } & Review>;
-    findAll(): Promise<Review[]>;
+    findAll(query: GetReviewsQuery): Promise<{
+        reviews: Review[];
+        totalCount: number;
+    }>;
     findOne(id: number): Promise<Review>;
     update(id: number, updateReviewDto: UpdateReviewDto): Promise<void>;
     remove(id: number): Promise<void>;

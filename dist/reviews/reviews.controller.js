@@ -26,8 +26,8 @@ let ReviewsController = class ReviewsController {
     create(createReviewDto, req) {
         return this.reviewsService.create(req.user.id, createReviewDto);
     }
-    findAll() {
-        return this.reviewsService.findAll();
+    findAll(query) {
+        return this.reviewsService.findAll(query);
     }
     findOne(id) {
         return this.reviewsService.findOne(+id);
@@ -56,8 +56,9 @@ __decorate([
 ], ReviewsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ReviewsController.prototype, "findAll", null);
 __decorate([
